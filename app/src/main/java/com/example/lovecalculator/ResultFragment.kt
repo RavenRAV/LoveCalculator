@@ -1,5 +1,6 @@
 package com.example.lovecalculator
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Vibrator
 import androidx.fragment.app.Fragment
@@ -26,13 +27,14 @@ class ResultFragment : Fragment() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initViews() {
 
         if (arguments!= null){
             val model = arguments?.getSerializable(NamesFragment.KEY_FOR_RESULT) as LoveModel
 
             with(binding){
-                resultTV.text = model.fname + " + " + model.sname + " = " + model.result
+                resultTV.text = "${model.fname} + ${model.sname} = ${model.result}"
                 percentageTV.text = model.percentage
             }
         }
