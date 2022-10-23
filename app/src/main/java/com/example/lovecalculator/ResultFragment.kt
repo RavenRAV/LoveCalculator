@@ -27,22 +27,12 @@ class ResultFragment : Fragment() {
     }
 
     private fun initViews() {
-//        if (arguments!=null){
-//            val percentage =arguments?.getString(NamesFragment.KEY_FOR_PERCENTAGE)
-//            val result = arguments?.getString(NamesFragment.KEY_FOR_RESULT)
-//
-//            with(binding){
-//                resultTV.text = result
-//                percentageTV.text = percentage + "%"
-//
-//            }
-//        }
 
         if (arguments!= null){
             val model = arguments?.getSerializable(NamesFragment.KEY_FOR_RESULT) as LoveModel
 
             with(binding){
-                resultTV.text = model.result
+                resultTV.text = model.fname + " + " + model.sname + " = " + model.result
                 percentageTV.text = model.percentage
             }
         }

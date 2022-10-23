@@ -43,17 +43,8 @@ class NamesFragment : Fragment() {
                             call: Call<LoveModel>,
                             response: Response<LoveModel>
                         ) {
-                            val model = LoveModel(
-                                firstNameEd.text.toString(),
-                                secondNameEd.text.toString(),
-                                response.body()?.percentage.toString(),
-                                response.body()?.result.toString())
-//                            findNavController().navigate(R.id.resultFragment,
-//                            bundleOf(KEY_FOR_PERCENTAGE to response.body()?.percentage,
-//                                KEY_FOR_RESULT to response.body()?.result))
-
                             findNavController().navigate(R.id.resultFragment,
-                            bundleOf(KEY_FOR_RESULT to model))
+                            bundleOf(KEY_FOR_RESULT to response.body()))
                         }
 
                         override fun onFailure(call: Call<LoveModel>, t: Throwable) {
