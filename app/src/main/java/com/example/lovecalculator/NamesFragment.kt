@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.lovecalculator.databinding.FragmentNamesBinding
 import com.example.lovecalculator.model.LoveModel
@@ -17,8 +19,7 @@ import retrofit2.Response
 
 class NamesFragment : Fragment() {
     lateinit var binding: FragmentNamesBinding
-    lateinit var firstName: String
-    lateinit var secondName: String
+    val viewModel: LoveViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,28 +38,18 @@ class NamesFragment : Fragment() {
     private fun initClickers() {
         with(binding){
             calcButton.setOnClickListener {
-                App.api.calculate(firstNameEd.text.toString(), secondNameEd.text.toString())
-                    .enqueue(object : Callback<LoveModel>{
-                        override fun onResponse(
-                            call: Call<LoveModel>,
-                            response: Response<LoveModel>
-                        ) {
-                            findNavController().navigate(R.id.resultFragment,
-                            bundleOf(KEY_FOR_RESULT to response.body()))
-                        }
-
-                        override fun onFailure(call: Call<LoveModel>, t: Throwable) {
-                            Log.e("ololo", "onFailure: ${t.message}", )
-                        }
-                    })
+                viewModel.getLiveModel(firstNameEd.text.toString(), secondNameEd.text.toString())
+                    .observe(viewLifecycleOwner, Observer { loveModel ->
+                        Log.e("ololo", "initClickers: ${loveModel}", )
+                        findNavController().navigate(R.id.resultFragment,
+                        bundleOf(KEY_FOR_RESULT to loveModel))
+                })
             }
         }
     }
 
 
     companion object {
-        const val KEY_FOR_PERCENTAGE = "key.percent"
         const val KEY_FOR_RESULT = "key.result"
-
     }
 }
